@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import './App.css';
-import Login from './components/Login';
+import SignIn from './components/SignIn';
 
-// import Todos from './components/Todos';
+
 function App() {
 
-  // const [loggedIn,setLoggedIn] = useState(false);
-  const [,]= useState();
+   const [,]= useState();
   return (
       <div className="">
-        {/* {loggedIn ? <Todos/>: <Login setLoggedIn={setLoggedIn}/>} */}
-        <Login/>
+        
+        <SignIn/>
       </div>
   );
 }

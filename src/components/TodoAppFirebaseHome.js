@@ -1,3 +1,4 @@
+
 import { getAuth, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue, set, push, remove, update } from "firebase/database";
@@ -111,7 +112,7 @@ function TodoAppFirebaseHome() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <p>
         <button
           className="absolute top-4 right-4 bg-orange-400 text-white font-bold py-2 px-4 rounded hover:bg-orange-500"
@@ -120,7 +121,7 @@ function TodoAppFirebaseHome() {
           Log out
         </button>
       </p>
-      <h3 className="text-orange-400 font-bold py-2 px-4 text-2xl sm:text-3xl">Todo-App</h3>
+      <h3 className="text-orange-400 font-bold lg:pt-20 lg:pb-6 md:pb-4 sm:pb-4 px-2 md:text-2xl lg:text-4xl sm:text-sm ">Todo-App</h3>
       <div className="w-full max-w-md">
         <input
           placeholder="Enter your todo!"
@@ -131,7 +132,7 @@ function TodoAppFirebaseHome() {
         {"  "}
         {input.length !== 0 ? (
           <button
-            className="px-2 py-1 mt-2 border border-gray-800 rounded"
+            className="px-2 py-1 mt-2 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
             onClick={handleAddTodo}
           >
             +
@@ -141,23 +142,24 @@ function TodoAppFirebaseHome() {
         )}
       </div>
       <div className="w-full max-w-md mt-4">
-        <div className="text-orange-400 flex space-x-4 font-bold">
+        <div className="text-orange-400 flex space-x-4 font-bold sm:text-sm md:text-lg  lg:text-xl">
           <h6 onClick={handleFilterAll} className={`cursor-pointer ${filter === "all" ? "text-orange-500 animate-bounce" : ""}`}>All</h6>
           <h6 onClick={handleFilterCompleted} className={`cursor-pointer ${filter === "completed" ? "text-orange-500 animate-bounce" : ""}`}>Completed</h6>
           <h6 onClick={handleFilterActive} className={`cursor-pointer ${filter === "active" ? "text-orange-500 animate-bounce" : ""}`}>Active</h6>
         </div>
-        <ul className="mt-4 space-y-2">
+        <ul className="mt-4 space-y-2 sm:text-sm">
           {filteredTodos.map((arrayT) => (
-            <li key={arrayT.id} className={`flex flex-col sm:flex-row sm:justify-between items-center break-words ${arrayT.completed ? 'line-through text-gray-500' : ''}`}>
+            <li key={arrayT.id} className={`flex flex-row items-center break-words text-orange-500 ${arrayT.completed ? 'line-through text-orange-400' : ''}`}>
               {isEditing === arrayT.id ? (
                 <>
                   <input
                     value={editText}
                     onChange={handleEditInputChange}
-                    className="flex-grow px-2 py-1 border border-gray-800 rounded mb-2 sm:mb-0 sm:mr-2"
+                    placeholder="Enter your todo!"
+                    className="flex-grow px-2 py-1 border border-orange-400 rounded"
                   />
                   <button
-                    className="px-2 py-1 mb-2 sm:mb-0 sm:ml-2 border border-gray-800 rounded"
+                    className="px-2 py-1 ml-2 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
                     onClick={() => handleSaveEdit(arrayT.id)}
                   >
                     Save
@@ -165,22 +167,22 @@ function TodoAppFirebaseHome() {
                 </>
               ) : (
                 <>
-                  <span className="flex-grow mb-2 sm:mb-0 break-all">{arrayT.text}</span>
-                  <div className="flex flex-col sm:flex-row">
+                  <span className="flex-grow break-all">{arrayT.text}</span>
+                  <div className="flex space-x-2">
                     <button
-                      className="px-2 py-1 mb-2 sm:mb-0 sm:ml-2 border border-gray-800 rounded"
+                      className="px-2 py-1 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
                       onClick={() => handleDeleteTodo(arrayT.id)}
                     >
                       Del
                     </button>
                     <button
-                      className="px-2 py-1 mb-2 sm:mb-0 sm:ml-2 border border-gray-800 rounded"
+                      className="px-2 py-1 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
                       onClick={() => handleCompletedTodo(arrayT.id, arrayT.completed)}
                     >
                       Completed
                     </button>
                     <button
-                      className="px-2 py-1 mb-2 sm:mb-0 sm:ml-2 border border-gray-800 rounded"
+                      className="px-2 py-1 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
                       onClick={() => handleEditTodo(arrayT.id)}
                     >
                       Edit

@@ -1,4 +1,3 @@
-
 import { getAuth, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { getDatabase, ref, onValue, set, push, remove, update } from "firebase/database";
@@ -55,6 +54,12 @@ function TodoAppFirebaseHome() {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleAddTodo();
+    }
+  };
+
   const handleDeleteTodo = async (id) => {
     const user = auth.currentUser;
     if (!user) return; // Ensure the user is logged in
@@ -79,8 +84,10 @@ function TodoAppFirebaseHome() {
 
   const handleEditTodo = (id) => {
     const todoToEdit = arrayTodo.find((todo) => todo.id === id);
-    setIsEditing(id);
-    setEditText(todoToEdit.text);
+    if (!todoToEdit.completed) { // Only allow editing if the todo is not completed
+      setIsEditing(id);
+      setEditText(todoToEdit.text);
+    }
   };
 
   const handleEditInputChange = (e) => {
@@ -127,19 +134,9 @@ function TodoAppFirebaseHome() {
           placeholder="Enter your todo!"
           className="w-full px-2 py-1 border border-orange-400 rounded"
           onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
           value={input}
         />
-        {"  "}
-        {input.length !== 0 ? (
-          <button
-            className="px-2 py-1 mt-2 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
-            onClick={handleAddTodo}
-          >
-            +
-          </button>
-        ) : (
-          <div className="mt-2"></div>
-        )}
       </div>
       <div className="w-full max-w-md mt-4">
         <div className="text-orange-400 flex space-x-4 font-bold sm:text-sm md:text-lg  lg:text-xl">
@@ -149,7 +146,7 @@ function TodoAppFirebaseHome() {
         </div>
         <ul className="mt-4 space-y-2 sm:text-sm">
           {filteredTodos.map((arrayT) => (
-            <li key={arrayT.id} className={`flex flex-row items-center break-words text-orange-500 ${arrayT.completed ? 'line-through text-orange-400' : ''}`}>
+            <li key={arrayT.id} className="flex flex-row items-center break-words text-orange-500">
               {isEditing === arrayT.id ? (
                 <>
                   <input
@@ -167,7 +164,9 @@ function TodoAppFirebaseHome() {
                 </>
               ) : (
                 <>
-                  <span className="flex-grow break-all">{arrayT.text}</span>
+                  <span className={`flex-grow break-all ${arrayT.completed ? 'line-through' : ''}`}>
+                    {arrayT.text}
+                  </span>
                   <div className="flex space-x-2">
                     <button
                       className="px-2 py-1 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
@@ -182,8 +181,9 @@ function TodoAppFirebaseHome() {
                       Completed
                     </button>
                     <button
-                      className="px-2 py-1 border border-orange-400 rounded bg-orange-400 text-white hover:bg-orange-500"
+                      className={`px-2 py-1 border border-orange-400 rounded ${arrayT.completed ? 'bg-gray-400 text-gray-200 cursor-not-allowed' : 'bg-orange-400 text-white hover:bg-orange-500'}`}
                       onClick={() => handleEditTodo(arrayT.id)}
+                      disabled={arrayT.completed}
                     >
                       Edit
                     </button>

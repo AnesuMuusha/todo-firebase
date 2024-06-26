@@ -128,7 +128,7 @@ function TodoAppFirebaseHome() {
           Log out
         </button>
       </p>
-      <h3 className="text-orange-400 font-bold lg:pt-20 lg:pb-6 md:pb-4 sm:pb-4 px-2 md:text-2xl lg:text-4xl sm:text-sm ">Todo-App</h3>
+      <h3 className="text-orange-400 font-bold lg:pt-20 lg:pb-6 md:pb-4  px-2 md:text-2xl lg:text-4xl sm:py-52 sm:text-sm sm:pt-8 ">Todo-App</h3>
       <div className="w-full max-w-md">
         <input
           placeholder="Enter your todo!"
